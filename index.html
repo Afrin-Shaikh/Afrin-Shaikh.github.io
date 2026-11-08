@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Afrin Shaikh – Data Analysis Portfolio</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root{--bg:#f4f7f7;--ink:#14232b;--mut:#51656e;--line:#c9d6da;--acc:#0e6e8c;--flag:#b45f00;--card:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10191d;--ink:#e6eef0;--mut:#9db0b7;--line:#2b3b42;--acc:#5bc0de;--flag:#f0a64a;--card:#172329}}
+:root[data-theme="dark"]{--bg:#10191d;--ink:#e6eef0;--mut:#9db0b7;--line:#2b3b42;--acc:#5bc0de;--flag:#f0a64a;--card:#172329}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 "Source Serif 4",Georgia,serif}
+main{max-width:760px;margin:0 auto;padding:48px 20px 64px}
+h1{font-size:clamp(2rem,6vw,3rem);line-height:1.1;margin:0 0 12px;font-weight:600}
+h2{font-size:1.35rem;margin:48px 0 10px;font-weight:600;border-top:1px solid var(--line);padding-top:20px}
+p{margin:0 0 14px;max-width:68ch}.mut{color:var(--mut)}
+.scroll{overflow-x:auto;max-width:100%}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem;background:var(--card)}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;color:var(--mut)}
+.pill{color:var(--flag);font-weight:600}
+ul{padding-left:20px;max-width:68ch}li{margin-bottom:8px}
+svg{max-width:100%;height:auto;display:block}
+a{color:var(--acc)}
+.note{border-left:3px solid var(--flag);padding:4px 0 4px 14px;margin:18px 0}
+</style></head><body><main>
+<h1>Afrin Alim Shaikh</h1>
+<p>Data Science and Biological Sciences student at Krea University. I clean messy data, check it, and report what it does and does not show. Below is one research project, including the mistakes I found when I audited my own work.</p>
+<p class="mut">afrin_shaikh.sias23@krea.ac.in</p>
+
+<h2>Clustering university students by study behaviour</h2>
+<p>Research internship at Krea University under Prof. Brijesh Kumar Jha. Question: do students fall into distinct study-and-performance profiles that CGPA alone hides? Data: a public Mendeley survey of 1,194 students with 31 fields.</p>
+
+<h2>What I did</h2>
+<ul>
+<li>Filled the single missing field with the mode, standardised text answers, and converted mixed-format numbers (ranges, fractions, percentages) to one scale.</li>
+<li>Built two indicators: High Performance (CGPA above 3.0) and Study Efficiency (CGPA divided by daily study hours).</li>
+<li>Encoded categories, scaled with MinMaxScaler, and ran K-Means with k = 3 on 1,185 students. Nine students who reported 0 study hours dropped out because efficiency is undefined for them.</li>
+</ul>
+
+<h2>The three groups the data produced</h2>
+<div class="scroll"><table>
+<tr><th>Group</th><th>Students</th><th>Avg CGPA</th><th>Study hrs/day</th><th>Typical student</th></tr>
+<tr><td>A</td><td>671 (56.6%)</td><td>3.07</td><td>3.4</td><td>Early years: median age 20, semester 4</td></tr>
+<tr><td>B</td><td>367 (31.0%)</td><td>3.28</td><td>3.5</td><td>Senior: median age 23, semester 10, most skill-development time (2.5 hrs)</td></tr>
+<tr><td>C</td><td>147 (12.4%)</td><td>3.32</td><td>1.0</td><td>Everyone studies exactly 1 hr/day; highest attendance</td></tr>
+</table></div>
+<p class="mut" style="margin-top:10px">I re-ran my notebook from the raw file and reproduced the cluster sizes in my original report exactly.</p>
+
+<h2>How reliable are these groups?</h2>
+<p>I scored k = 2 to 6 with the silhouette measure (higher means better-separated clusters).</p>
+<svg viewBox="0 0 520 190" role="img" aria-label="Silhouette score by number of clusters: k=2 0.23, k=3 0.23, k=4 0.27, k=5 0.22, k=6 0.21">
+<g fill="var(--acc)" opacity=".55"><rect x="50" y="62" width="60" height="88"/><rect x="330" y="76" width="60" height="74"/><rect x="430" y="82" width="60" height="68"/></g>
+<rect x="150" y="62" width="60" height="88" fill="var(--flag)"/><rect x="240" y="47" width="60" height="103" fill="var(--acc)" opacity=".55"/>
+<g fill="var(--ink)" font-size="13" font-family="inherit" text-anchor="middle"><text x="80" y="55">0.23</text><text x="180" y="55">0.23</text><text x="270" y="40">0.27</text><text x="360" y="69">0.22</text><text x="460" y="75">0.21</text>
+<text x="80" y="172">k=2</text><text x="180" y="172">k=3 (used)</text><text x="270" y="172">k=4</text><text x="360" y="172">k=5</text><text x="460" y="172">k=6</text></g>
+<line x1="30" x2="510" y1="150" y2="150" stroke="var(--line)"/></svg>
+<p style="margin-top:10px">A score near 0.23 means the groups overlap a lot. I chose k = 3 because three groups are easy to interpret, not because the data strongly favours it. k = 4 scores slightly higher.</p>
+
+<h2>Auditing my own results</h2>
+<p>When I rebuilt this for the portfolio, I checked the output against my original report and found problems.</p>
+<div class="note"><p><span class="pill">Labels did not match the numbers.</span> My report called the largest group "Efficient High Achievers" and the 12.4% group "Developing Students, at risk". The data shows the opposite: the largest group has the lowest CGPA, and the 12.4% group has the highest CGPA, the highest attendance and a 1-hour study habit. That group is not at risk by grades. The table above uses what the data shows.</p></div>
+<ul>
+<li><b>A scaling error.</b> One attendance entry written as a range ("94-98") became 96 on a scale where everyone else is 0 to 4. MinMax scaling then squashed everyone else's attendance near zero, so attendance had almost no say in the clusters. My cleaning function averaged ranges without converting them.</li>
+<li><b>Group C is defined by one value.</b> Every student in it studies exactly 1 hour a day, and dividing CGPA by 1 inflates the efficiency score. The ratio feature rewards low study hours more than it measures efficiency.</li>
+<li><b>Dropped records.</b> Dividing by 0 study hours removed 9 students, and I had not reported that.</li>
+</ul>
+
+<h2>What I would do next</h2>
+<ul>
+<li>Fix the range conversion, cap outliers, and add an automatic range check to the cleaning step. I have not re-run the model with these fixes yet.</li>
+<li>Replace the ratio with a measure that does not blow up at 1 hour, and test whether groups stay stable across random seeds and across k = 3 and 4.</li>
+<li>Report cluster labels only after checking them against the averages.</li>
+</ul>
+<p class="mut">Tools: Python, Pandas, NumPy, scikit-learn, Matplotlib, Seaborn. Dataset: Students' Academic Performance Evaluation Dataset, Mendeley Data (2022).</p>
+</main></body></html>
